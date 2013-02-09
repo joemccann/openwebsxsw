@@ -24,7 +24,6 @@ $(document).ready(function(){
       }) // end post
     }
     
-    
     var stripeConfig = {
       key:         $stripeButton[0].dataset.key,
       address:     false,
@@ -34,7 +33,6 @@ $(document).ready(function(){
       currency:    $stripeButton[0].dataset.currency, 
       token:       stripeTokenCallback
     }
-    
     
     $stripeButton.on('click', function(){
       StripeCheckout.open(stripeConfig)
