@@ -1,6 +1,12 @@
 /* Wire stripe payments */
 $(document).ready(function(){
   
+  // Check for touch events (note: this is not exhaustive)
+  if( !('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) 
+    document.documentElement.className = "no-touch"
+
+
+  // Handle Stripe...
   var $stripeButton = $('#stripe-button')
   
   if($stripeButton.length){

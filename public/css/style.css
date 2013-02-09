@@ -164,6 +164,19 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+*,
+*:after,
+*:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+* {
+  -webkit-transition: background 0.3s ease;
+  -moz-transition: background 0.3s ease;
+  -o-transition: background 0.3s ease;
+  transition: background 0.3s ease;
+}
 body {
   padding: 2.5% 3%;
   font-size: 100%;
@@ -226,4 +239,12 @@ button span {
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
   border-radius: 4px;
+}
+.no-touch button span:hover {
+  background: #5fa2ff;
+  background-image: -webkit-linear-gradient(#7dc5ee, #008cdd 45%, #30a2e4);
+  background-image: -moz-linear-gradient(#7dc5ee, #008cdd 45%, #30a2e4);
+  background-image: -ms-linear-gradient(#7dc5ee, #008cdd 45%, #30a2e4);
+  background-image: -o-linear-gradient(#7dc5ee, #008cdd 45%, #30a2e4);
+  background-image: linear-gradient(#7dc5ee, #008cdd 45%, #30a2e4);
 }
