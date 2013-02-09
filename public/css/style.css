@@ -201,6 +201,14 @@ a {
   color: #29d4c7;
   text-decoration: none;
 }
+.block {
+  display: block;
+}
+.opacity75 {
+  -khtml-opacity: 0.75;
+  -moz-opacity: 0.75;
+  opacity: 0.75;
+}
 .no-touch a:hover {
   color: #27cbbf;
   text-decoration: underline;
@@ -244,6 +252,14 @@ footer {
 }
 section [role="main"] {
   width: 100%;
+}
+section [role="social"] {
+  margin: 3% 0;
+}
+section [role="sponsors"] > a {
+  display: block;
+  font-size: 1.4em;
+  font-weight: 100;
 }
 fieldset {
   border: none;
@@ -406,6 +422,9 @@ button span {
     -ms-transform: translate(50%, 25%) scale(0.55, 0.55);
     transform: translate(50%, 25%) scale(0.55, 0.55);
   }
+  section [role="social"] {
+    margin: 7% 0;
+  }
 }
 @media only screen and (max-width: 40em) {
   #logo {
@@ -414,6 +433,9 @@ button span {
     -o-transform: translate(42%, 23%) scale(0.4, 0.4);
     -ms-transform: translate(42%, 23%) scale(0.4, 0.4);
     transform: translate(42%, 23%) scale(0.4, 0.4);
+  }
+  section [role="social"] {
+    margin: 8% 0;
   }
 }
 @media only screen and (max-width: 30em) {
@@ -427,6 +449,9 @@ button span {
   section [role="main"] {
     padding: 0 2%;
     width: 96%;
+  }
+  section [role="social"] {
+    margin: 10% 0;
   }
 }
 @media only screen and (max-width: 20em) {
