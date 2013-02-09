@@ -9,20 +9,52 @@
   box-sizing: border-box
 
 *
-  -webkit-transition: background 0.3s ease
-  -moz-transition: background 0.3s ease
-  -o-transition: background 0.3s ease
-  transition: background 0.3s ease
+  -webkit-transition: all 0.3s ease
+  -moz-transition: all 0.3s ease
+  -o-transition: all 0.3s ease
+  transition: all 0.3s ease
+
+html, body
+  height 100%
 
 body
-  padding: 2.5% 3%
   font-size: 100%
-  font-family: 'Gochi Hand', sans-serif
+  font-family: 'LeagueGothicRegular', Helvetica, Arial, sans-serif
+  background-color #f4f5ed
+  margin-bottom 15%
   
 img
   max-width 100%
   
 a
   color: lighten(blue,20)
+
+p
+  font-size 1.6em
+  
+#container
+  margin 0 auto
+  text-align center
+  padding-bottom 2.5%
+
+#branding
+  width 100%
+  display block
+
+#logo
+  display inline-block
+  margin 0 auto
+  position absolute
+
+header
+  -webkit-box-shadow: 0 8px 6px -6px rgba(0,0,0, 0.56)
+  -moz-box-shadow: 0 8px 6px -6px black;
+  -webkit-box-shadow: 0 1px 6px 1px rgba(0,0,0, 0.56)
+
+h1
+  font-size 3.6em
+  line-height 1.2
+
   
 @import 'buttons'
+@import 'responsive'

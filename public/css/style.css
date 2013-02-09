@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'LeagueGothicRegular';
+  src: url("/font/League_Gothic-webfont.eot");
+  src: url("/font/League_Gothic-webfont.eot?#iefix") format('embedded-opentype'), url("/font/League_Gothic-webfont.woff") format('woff'), url("/font/League_Gothic-webfont.ttf") format('truetype'), url("/font/League_Gothic-webfont.svg#LeagueGothicRegular") format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
 article,
 aside,
 details,
@@ -172,21 +179,52 @@ table {
   box-sizing: border-box;
 }
 * {
-  -webkit-transition: background 0.3s ease;
-  -moz-transition: background 0.3s ease;
-  -o-transition: background 0.3s ease;
-  transition: background 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+html,
+body {
+  height: 100%;
 }
 body {
-  padding: 2.5% 3%;
   font-size: 100%;
-  font-family: 'Gochi Hand', sans-serif;
+  font-family: 'LeagueGothicRegular', Helvetica, Arial, sans-serif;
+  background-color: #f4f5ed;
+  margin-bottom: 15%;
 }
 img {
   max-width: 100%;
 }
 a {
   color: #66f;
+}
+p {
+  font-size: 1.6em;
+}
+#container {
+  margin: 0 auto;
+  text-align: center;
+  padding-bottom: 2.5%;
+}
+#branding {
+  width: 100%;
+  display: block;
+}
+#logo {
+  display: inline-block;
+  margin: 0 auto;
+  position: absolute;
+}
+header {
+  -webkit-box-shadow: 0 8px 6px -6px rgba(0,0,0,0.56);
+  -moz-box-shadow: 0 8px 6px -6px #000;
+  -webkit-box-shadow: 0 1px 6px 1px rgba(0,0,0,0.56);
+}
+h1 {
+  font-size: 3.6em;
+  line-height: 1.2;
 }
 button {
   overflow: hidden;
@@ -247,4 +285,46 @@ button span {
   background-image: -ms-linear-gradient(#7dc5ee, #008cdd 45%, #30a2e4);
   background-image: -o-linear-gradient(#7dc5ee, #008cdd 45%, #30a2e4);
   background-image: linear-gradient(#7dc5ee, #008cdd 45%, #30a2e4);
+}
+@font-face {
+  font-family: 'LeagueGothicRegular';
+  src: url("/font/League_Gothic-webfont.eot");
+  src: url("/font/League_Gothic-webfont.eot?#iefix") format('embedded-opentype'), url("/font/League_Gothic-webfont.woff") format('woff'), url("/font/League_Gothic-webfont.ttf") format('truetype'), url("/font/League_Gothic-webfont.svg#LeagueGothicRegular") format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@media only screen and (max-width: 90em) {
+  #logo {
+    -webkit-transform: translate(85%, 50%);
+    -webkit-transform-origin: top left;
+    -moz-transform-origin: top left;
+    -o-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+  }
+}
+@media only screen and (max-width: 64em) {
+  #logo {
+    -webkit-transform: translate(65%, 33%) scale(0.7, 0.7);
+  }
+}
+@media only screen and (max-width: 48em) {
+  #logo {
+    -webkit-transform: translate(50%, 25%) scale(0.55, 0.55);
+  }
+}
+@media only screen and (max-width: 40em) {
+  #logo {
+    -webkit-transform: translate(42%, 23%) scale(0.4, 0.4);
+  }
+}
+@media only screen and (max-width: 30em) {
+  #logo {
+    -webkit-transform: translate(28%, 17%) scale(0.3, 0.3);
+  }
+}
+@media only screen and (max-width: 20em) {
+  #logo {
+    -webkit-transform: translate(12%, 7%) scale(0.3, 0.3);
+  }
 }

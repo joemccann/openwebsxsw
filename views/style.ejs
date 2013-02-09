@@ -1,9 +1,5 @@
-<% var font = 'https://fonts.googleapis.com/css?family=Gochi Hand&subset=latin' %>
-
 <% if(env === 'production') { %>
-  <link href="<%- font %>" rel="stylesheet" type="text/css">
   <link href="/css/style-<%- app_version %>.min.css" rel="stylesheet">
 <% } else { %>
-  <link href="<%- font %>" rel="stylesheet" type="text/css">
   <link href="/css/style.css" rel="stylesheet">
 <% }%>
