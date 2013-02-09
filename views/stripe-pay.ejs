@@ -1,0 +1,12 @@
+<% var amount = '500000', currency = 'usd', description = 'Foo user charge.' %>
+
+<script src="https://checkout.stripe.com/v2/checkout.js"></script>
+
+<button id="stripe-button" 
+  data-currency="<%- currency %>"
+  data-key="<%- api_key_publishable_test %>" 
+  data-amount="<%- amount %>" 
+  data-description="<%- description %>" 
+  data-name="Open Web SXSW">
+    <span>Pay with Credit Card</span>
+</button>
