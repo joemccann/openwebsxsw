@@ -7,12 +7,13 @@ var express = require('express')
   , routes = require('./routes')
   , http = require('http')
   , path = require('path')
+  , stripe
+  ;
 
-// Snage stripe api key.
-var stripeKeys = require(path.resolve(__dirname, 'config', './stripe-config.json'))
-var api_key = stripeKeys['api-key-secret-test']
-var stripe = require('stripe')(api_key)
+// Init Invoices...
+var invoices = require(path.resolve(__dirname, 'invoices', './invoices-config.json'))
 
+// Init Express app...
 var app = express()
 
 app.configure(function(){
@@ -36,12 +37,23 @@ app.configure(function(){
   app.locals.node_version = process.version.replace('v', '')
   app.locals.app_version = package.version
   app.locals.env = process.env.NODE_ENV
+
+  // Init Stripe...
+  var stripeKeys = require(path.resolve(__dirname, 'config', './stripe-config.json'))
+    , api_key
+
+  // Set proper key based on environment...
+  if(app.locals.env === 'production'){
+    api_key = stripeKeys['api-key-secret-production']
+  }
+  else{
+    api_key = stripeKeys['api-key-secret-test']
+  }
   
-  // "api-key-secret-test": "fyWaZg1ADwrdnEElG7yG415Q97MHhboG",
-  // "api-key-secret-production": "Q9csjIBz69B0m73H8y4R9bDtQOMkPQO0",
-  // "api-key-publishable-test": "pk_qp4FNrU3HaVyHTfulR5ISLyGDX1Te",
-  // "api-key-publishable-production": "pk_j7Ka3mf1YDjxB8YPrXF72IKTexg3K"
+  // Load stripe
+  stripe = require('stripe')(api_key)
   
+  // Set these for use in views...
   app.locals['api_key_publishable_test'] = stripeKeys["api-key-publishable-test"]
   app.locals['api_key_publishable_production'] = stripeKeys["api-key-publishable-production"]
   
@@ -54,23 +66,47 @@ app.configure('development', function(){
   app.use(express.errorHandler())
 })
 
+// Handle index page.
 app.get('/', routes.index)
 
+// Handle incoming invoice number
+app.get('/invoice/:number', function(req,res,next){
+  // first, get the invoice number and see if it exists
+  var invoiceNum = req.params.number
+
+  if(!invoices[invoiceNum]) return next()
+
+  var theInvoice = invoices[invoiceNum]
+  
+  // Since it exists, populate the config object for the
+  // invoice view...
+  
+  // NOTE: THE API KEY IS IN THE APP.LOCALS
+  var config = {
+    amount: theInvoice.amount,
+    currency: theInvoice.currency || 'usd',
+    description: theInvoice.description,
+    name: theInvoice.name
+  }
+  
+  return res.render('invoice', config)  
+  
+})
+
+// Handle incoming stripe charge
 app.post('/charge', function(req, res){
   
-  var body = req.body
-
-  return handleStripePost(body,res)
+  return handleStripePost(req.body,res)
 
 })
 
-
+// Fire up server...
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'))
   console.log("\nhttp://127.0.0.1:" + app.get('port'))
 })
 
-
+// When a charge is posted, let's call out to Stripe...
 function handleStripePost(obj, res){
     
   // Post the charge
