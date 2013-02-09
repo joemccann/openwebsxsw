@@ -94,6 +94,11 @@ app.get('/invoice/:number', function(req,res,next){
   
 })
 
+// Handle incoming signup post
+app.post('/signup', function(req,res,next){
+  return handleSignupPost(req.body, res)
+})
+
 // Handle incoming stripe charge
 app.post('/charge', function(req, res){
   
@@ -123,6 +128,12 @@ function handleStripePost(obj, res){
   })
 }
 
+// When a charge is posted, let's call out to Stripe...
+function handleSignupPost(obj, res){
+    
+  return res.json(obj)
+
+}
 
 // Concats, minifies js and css for production
 function smoosher(){

@@ -1,12 +1,62 @@
 /* Wire stripe payments */
 $(document).ready(function(){
   
+  log('Ready...')
+  
+  // Global
+  window.OW = {}
+  
   // Check for touch events (note: this is not exhaustive)
   if( !('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) 
     document.documentElement.className = "no-touch"
 
 
-  // Handle Stripe...
+  // Get user's location and stash...
+  if (navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(geoSuccess, geoError)
+  } 
+  else geoError("Not supported.")
+  
+  function geoSuccess(position) {
+    OW.position = position
+  }
+
+  function geoError(msg) {
+    log(arguments)
+    OW.position = {}
+  }
+  
+  /* Handle Signup Form ****************************************/
+  
+  var $signupForm = $('#signup-form')
+    , $signupButton = $('#signup-button')
+    
+  if($signupForm.length){
+    
+    $signupButton.on('click', function(){
+      
+      // Populate lat/lon if it's there...
+      $('#signup-lat').val( OW.position.latitude || '')
+      $('#signup-lon').val( OW.position.longitude || '')
+      
+      $.post('/signup', $signupForm.serialize(), function(resp){
+        var r = JSON.parse(resp)
+        log(r)
+        alert("Signup was successful. Stay tuned...")
+      }) // end post
+      
+      return false
+
+    }) // end click()
+    
+  }
+
+  /* End Signup Form *******************************************/
+  
+
+
+  /* Handle Stripe Invoice Payments... *************************/
+  
   var $stripeButton = $('#stripe-button')
   
   if($stripeButton.length){
@@ -46,5 +96,6 @@ $(document).ready(function(){
     })
     
   } // end if stripeButton length
+  /* End Stripe Invoice Payments... ****************************/
   
 })
