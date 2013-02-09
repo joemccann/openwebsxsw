@@ -191,17 +191,23 @@ body {
 body {
   font-size: 100%;
   font-family: 'LeagueGothicRegular', Helvetica, Arial, sans-serif;
-  background-color: #f4f5ed;
-  margin-bottom: 15%;
+  background: #f4f5ed url("/img/debut_light.png") repeat top left scroll;
+  color: #444;
 }
 img {
   max-width: 100%;
 }
 a {
-  color: #66f;
+  color: #29d4c7;
+  text-decoration: none;
+}
+.no-touch a:hover {
+  color: #27cbbf;
+  text-decoration: underline;
 }
 p {
   font-size: 1.6em;
+  font-weight: 100;
 }
 #container {
   margin: 0 auto;
@@ -224,7 +230,16 @@ header {
 }
 h1 {
   font-size: 3.6em;
+  font-weight: normal;
   line-height: 1.2;
+}
+footer {
+  margin: 3% auto;
+  text-align: center;
+  width: 100%;
+}
+section [role="main"] {
+  width: 100%;
 }
 button {
   overflow: hidden;
@@ -296,6 +311,10 @@ button span {
 @media only screen and (max-width: 90em) {
   #logo {
     -webkit-transform: translate(85%, 50%);
+    -moz-transform: translate(85%, 50%);
+    -o-transform: translate(85%, 50%);
+    -ms-transform: translate(85%, 50%);
+    transform: translate(85%, 50%);
     -webkit-transform-origin: top left;
     -moz-transform-origin: top left;
     -o-transform-origin: top left;
@@ -306,25 +325,49 @@ button span {
 @media only screen and (max-width: 64em) {
   #logo {
     -webkit-transform: translate(65%, 33%) scale(0.7, 0.7);
+    -moz-transform: translate(65%, 33%) scale(0.7, 0.7);
+    -o-transform: translate(65%, 33%) scale(0.7, 0.7);
+    -ms-transform: translate(65%, 33%) scale(0.7, 0.7);
+    transform: translate(65%, 33%) scale(0.7, 0.7);
   }
 }
 @media only screen and (max-width: 48em) {
   #logo {
     -webkit-transform: translate(50%, 25%) scale(0.55, 0.55);
+    -moz-transform: translate(50%, 25%) scale(0.55, 0.55);
+    -o-transform: translate(50%, 25%) scale(0.55, 0.55);
+    -ms-transform: translate(50%, 25%) scale(0.55, 0.55);
+    transform: translate(50%, 25%) scale(0.55, 0.55);
   }
 }
 @media only screen and (max-width: 40em) {
   #logo {
     -webkit-transform: translate(42%, 23%) scale(0.4, 0.4);
+    -moz-transform: translate(42%, 23%) scale(0.4, 0.4);
+    -o-transform: translate(42%, 23%) scale(0.4, 0.4);
+    -ms-transform: translate(42%, 23%) scale(0.4, 0.4);
+    transform: translate(42%, 23%) scale(0.4, 0.4);
   }
 }
 @media only screen and (max-width: 30em) {
   #logo {
     -webkit-transform: translate(28%, 17%) scale(0.3, 0.3);
+    -moz-transform: translate(28%, 17%) scale(0.3, 0.3);
+    -o-transform: translate(28%, 17%) scale(0.3, 0.3);
+    -ms-transform: translate(28%, 17%) scale(0.3, 0.3);
+    transform: translate(28%, 17%) scale(0.3, 0.3);
+  }
+  section [role="main"] {
+    padding: 0 2%;
+    width: 96%;
   }
 }
 @media only screen and (max-width: 20em) {
   #logo {
     -webkit-transform: translate(12%, 7%) scale(0.3, 0.3);
+    -moz-transform: translate(12%, 7%) scale(0.3, 0.3);
+    -o-transform: translate(12%, 7%) scale(0.3, 0.3);
+    -ms-transform: translate(12%, 7%) scale(0.3, 0.3);
+    transform: translate(12%, 7%) scale(0.3, 0.3);
   }
 }

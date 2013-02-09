@@ -20,17 +20,23 @@ html, body
 body
   font-size: 100%
   font-family: 'LeagueGothicRegular', Helvetica, Arial, sans-serif
-  background-color #f4f5ed
-  margin-bottom 15%
+  background #f4f5ed url('/img/debut_light.png') repeat top left scroll
+  color #444
   
 img
   max-width 100%
   
 a
-  color: lighten(blue,20)
+  color: #29d4c7
+  text-decoration none
+
+.no-touch a:hover
+  color: darken(#29d4c7,2)
+  text-decoration underline
 
 p
   font-size 1.6em
+  font-weight 100  
   
 #container
   margin 0 auto
@@ -48,13 +54,21 @@ p
 
 header
   -webkit-box-shadow: 0 8px 6px -6px rgba(0,0,0, 0.56)
-  -moz-box-shadow: 0 8px 6px -6px black;
+  -moz-box-shadow: 0 8px 6px -6px black
   -webkit-box-shadow: 0 1px 6px 1px rgba(0,0,0, 0.56)
 
 h1
   font-size 3.6em
+  font-weight normal
   line-height 1.2
 
+footer
+  margin 3% auto
+  text-align: center
+  width: 100%
+
+section [role="main"]
+  width 100%
   
 @import 'buttons'
 @import 'responsive'
