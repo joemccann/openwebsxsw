@@ -1,7 +1,12 @@
 Stripe Config File
 =
 
-File should look like:
+You will need a Stripe account to use this invoicing system.
+
+http://stripe.com
+
+Your `stripe-config.json` file should look like:
+
 ```
 {
   "api-key-secret-test": "YOUR-KEY",

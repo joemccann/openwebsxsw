@@ -3,7 +3,7 @@ Invoices
 
 This folder contains a flat file of invoice numbers and subsequent amounts due.
 
-The `invoices-config.json` file should look like:
+Your `invoices-config.json` file should look like:
 
 `amount` is in pennies just like Stripe
 
