@@ -4,6 +4,14 @@ Open Web SXSW
 This is the website for the Open Web SXSW Party in Austin, Texas.
 
 
+Install
+-
+
+1. Clone repo
+2. `npm i`
+3. `node app`
+4. `open http://127.0.0.1:3100`
+
 License
 -
 
