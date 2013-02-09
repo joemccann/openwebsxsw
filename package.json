@@ -1,7 +1,7 @@
 {
   "name": "Open-Web-SXSW",
   "description": "Website for the Open Web SXSW Party.",
-  "version": "0.0.1",
+  "version": "0.0.1-3",
   "private": true,
   "scripts": {
     "start": "node app.js"
@@ -17,9 +17,9 @@
   "engines": {
     "node": "0.8.x"
   },
-  "subdomain": "owsxsw",
+  "subdomain": "openwebsxsw",
   "domains": [
     "openwebsxsw.com",
     "www.openwebsxsw.com"
-  ]  
+  ]
 }

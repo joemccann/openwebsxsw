@@ -7,6 +7,7 @@ var express = require('express')
   , routes = require('./routes')
   , http = require('http')
   , path = require('path')
+  , fs = require('fs')
   , stripe
   ;
 
@@ -155,8 +156,23 @@ function smoosher(){
         "style": [ "./public/css/style.css" ]
       }
     })
+    .done(function(){
+      // Write boot.prod-VERSION.js
+      var js = fs.readFileSync( path.resolve(__dirname, 'public', 'js', 'boot.js'), 'utf-8')
+      
+      var newProdFile = 'openwebsxsw-'+app.locals.app_version+'.min'
+      
+      var write = js.replace('openwebsxsw', newProdFile)
+      
+      fs.writeFile( path.resolve(__dirname, 'public', 'js', 'boot.prod.js'), write, 'utf-8', function(err,data){
+       if(err) return console.error(err)
+       
+       console.log("Wrote the latest version: " + newProdFile)
+        
+      })
+      console.log('\nSmoosh don.e\n')
+    })
     
   } // end if production env
-
   
 }
