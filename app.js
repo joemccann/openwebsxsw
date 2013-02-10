@@ -241,6 +241,28 @@ function handleSignupPost(obj, res){
 
 }
 
+// A helper method to fetch the signups.json attachment (file)
+// and remove dupes
+function getPrunedSignupsList(url){
+
+  var url = url || couchdb.db_url + "/" + couchdb.db_name + "/signups/signups.json"
+
+  require('./signup-util/signup-util.js')(url, function(err,data){
+    if(err) return console.error(err)
+    
+    fs.writeFile( path.resolve(__dirname, "signup-util", "signups.json"), JSON.stringify(data), 'utf-8', function(err){
+      if(err) return console.error(err)
+
+      console.log('signups.json File written')
+
+      var f = fs.readFileSync(path.resolve(__dirname, "signup-util", "signups.json"), 'utf-8')
+      // console.dir(JSON.parse(f))
+    }) // end writeFile
+    
+  })
+  
+}
+
 // Concats, minifies js and css for production
 function smoosher(){
 
