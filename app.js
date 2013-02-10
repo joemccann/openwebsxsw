@@ -8,14 +8,16 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , fs = require('fs')
+  , request = require('request')
   , stripe
+  , signups
   ;
 
 // Init Invoices...
 var invoices = require(path.resolve(__dirname, 'invoices', './invoices-config.json'))
 
 // Init Signups...
-var signups = require(path.resolve(__dirname, 'signups', './signups-config.json'))
+var couchdb = require(path.resolve(__dirname, 'config', './couch-config.json'))
 
 // Init Express app...
 var app = express()
@@ -111,9 +113,101 @@ app.post('/charge', function(req, res){
 
 // Fire up server...
 http.createServer(app).listen(app.get('port'), function(){
+  
+  // Fetch the signups
+  fetchSignupsFromCouch(function(e,d){
+    if(e) return console.error(e)
+
+    console.log('Fetched Signups Attachment doc.')
+    // If it's not an array back from couch, then make it an empty one.
+    signups = ( Object.prototype.toString.call( d ) === '[object Array]' ? d : [])
+
+  })
+  
   console.log("Express server listening on port " + app.get('port'))
   console.log("\nhttp://127.0.0.1:" + app.get('port'))
 })
+
+// Snag latest id and rev with HEAD; fire callback
+function fetchHeadFromCouch(cb){
+
+  var fullCouchDbUrl = couchdb.db_url + "/" + couchdb.db_name + "/signups"
+
+  var h = {'content-type':'application/json', 'accept':'application/json'}
+  
+  var config = {
+    type: 'HEAD',
+    url: fullCouchDbUrl,
+    headers: h
+  }
+  
+  request(config, function(e,r,b){
+    if(e){
+      console.error(e)
+      return cb(e)
+    }
+    if(b){
+      // console.dir(b)
+      return cb(null,JSON.parse(b))
+    }
+  })
+  
+}
+
+// Fetch the signups doc; firecallback
+function fetchSignupsFromCouch(cb){
+  
+  var fullCouchDbUrl = couchdb.db_url + "/" + couchdb.db_name + "/signups/signups.json"
+
+  var config = {
+    type: 'GET',
+    url: fullCouchDbUrl,
+    headers: {"Accept": "text/json"}
+  }
+  
+  request(config, function(e,r,b){
+    if(e){
+      console.error(e)
+      return cb(e)
+    }
+    if(b){
+      // console.dir(b)
+      return cb(null, JSON.parse(b))
+    }
+  })
+
+
+}
+
+// Write new signup to couch; fire callback
+function writeToCouch(rev, res, cb){
+  
+  var fullCouchDbUrl = couchdb.db_url + "/" + couchdb.db_name + "/signups?rev="+rev
+  
+  var config = { 
+                  method: 'PUT'
+                , uri: fullCouchDbUrl
+                , multipart: 
+                  [ { 'content-type': 'application/json'
+                    ,  body: JSON.stringify({_attachments: {'signups.json': {follows: true, length: JSON.stringify(signups).length,
+                       'content_type': 'text/json' }}})
+                    }
+                  , { body: JSON.stringify(signups) }
+                  ]
+              }
+  
+  request(config, function (error, response, body){
+    if(response.statusCode == 201){
+      console.log('document saved as: '+ fullCouchDbUrl)
+      cb()
+    }
+    else{
+      console.error('error: '+ response.statusCode)
+      cb('error: '+ response.statusCode)
+    }
+  }) // end request
+  
+}
 
 // When a charge is posted, let's call out to Stripe...
 function handleStripePost(obj, res){
@@ -136,19 +230,13 @@ function handleSignupPost(obj, res){
     
   signups.push(obj)
   
-  res.json(obj)
-  
-  // Now write to file...
-  return updateSignupFile()
-
-}
-
-// Write the signups array to a file
-function updateSignupFile(){
-  // Updating Signup File...
-  fs.writeFile( path.resolve(__dirname, 'signups', './signups-config.json'), JSON.stringify(signups), 'utf-8', function(err){
-    if(err) return console.error(err)
-    console.log("Signups file updated at: "+ (new Date).toLocaleTimeString() )
+  fetchHeadFromCouch(function(e,d){
+    // console.dir(d)
+    var rev = d._rev
+    writeToCouch(rev, res, function(e){
+      if(e) return res.json(e)
+      return res.json(obj)
+    })  
   })
 
 }
@@ -199,7 +287,7 @@ function smoosher(){
        console.log("Wrote the latest version: " + newProdFile)
         
       })
-      console.log('\nSmoosh don.e\n')
+      console.log('\nSmoosh done.\n')
     })
     
   } // end if production env
