@@ -41,6 +41,7 @@ $(document).ready(function(){
       
       var $inputEmail = $('input[type="email"]')
         , $inputName = $('input[type="name"]')
+        , $inputTwitter = $('input[type="twitter"]')
 
       // Validate inputs
       if( $inputName.val().length < 2 ){
@@ -68,6 +69,9 @@ $(document).ready(function(){
       // Populate lat/lon if it's there...
       $('#signup-lat').val( OW.position ? OW.position.latitude : '')
       $('#signup-lon').val( OW.position ? OW.position.longitude : '')
+      
+      // Cleanup twitter handle...
+      $inputTwitter.val( $inputTwitter.val().replace('@', '') )
       
       $.post('/signup', $signupForm.serialize(), function(resp){
         var r = JSON.parse(resp)
