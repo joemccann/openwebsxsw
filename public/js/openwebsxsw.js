@@ -18,12 +18,12 @@ $(document).ready(function(){
   else geoError("Not supported.")
   
   function geoSuccess(position) {
-    OW.position = position
+    OW.position = position.coords
   }
 
   function geoError(msg) {
     log(arguments)
-    OW.position = {}
+    OW.position = null
   }
   
   /* Handle Signup Form ****************************************/
@@ -66,8 +66,8 @@ $(document).ready(function(){
       }        
       
       // Populate lat/lon if it's there...
-      $('#signup-lat').val( OW.position.coords.latitude || '')
-      $('#signup-lon').val( OW.position.coords.longitude || '')
+      $('#signup-lat').val( OW.position ? OW.position.latitude : '')
+      $('#signup-lon').val( OW.position ? OW.position.longitude : '')
       
       $.post('/signup', $signupForm.serialize(), function(resp){
         var r = JSON.parse(resp)
@@ -86,7 +86,6 @@ $(document).ready(function(){
     }
     
     $signupButton.on('click', function(e){
-      
       signupHandler(e)
       e.preventDefault()
       return false
