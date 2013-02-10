@@ -24,7 +24,7 @@ Your `couchdb-config.json` file should look like:
 
 ```
 {
-  "db_name": "openwebsxsw-couch",
+  "db_name": "YOUR_DB_NAME",
   "db_url": "http://SOME_URL:PORT",
   "db_secure_url": "https://SOME_URL:PORT"
 }
