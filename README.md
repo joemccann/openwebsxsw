@@ -11,7 +11,7 @@ Install
 2. `npm i`
 3. Follow the instructions in the `README.md` file in the `config` directory (for Stripe integration)
 4. Follow the instructions in the `README.md` file in the `invoices` directory (for handling invoices)
-4. Follow the instructions in the `README.md` file in the `signups` directory (for handling invoices)
+4. Follow the instructions in the `README.md` file in the `signups` directory (for handling signups)
 5. `node app`
 6. `open http://127.0.0.1:3100`
 
