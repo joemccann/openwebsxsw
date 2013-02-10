@@ -35,14 +35,38 @@ $(document).ready(function(){
     
     $signupButton.on('click', function(){
       
+      $('.error').removeClass('error')
+      
+      var $inputEmail = $('input[type="email"]')
+        , $inputName = $('input[type="name"]')
+
+      // Validate inputs
+      if( $inputName.val().length < 2 ){
+        log('Bad name.')
+        $inputName
+          .val('')
+          .addClass('error')
+          .focus()
+        return false
+      } else if( !( /(.+)@(.+){2,}\.(.+){2,}/.test( $inputEmail.val() ) ) ){
+        log('Bad email.')
+        $inputEmail
+          .val('')
+          .addClass('error')
+          .focus()
+        return false
+      }        
+      
       // Populate lat/lon if it's there...
-      $('#signup-lat').val( OW.position.latitude || '')
-      $('#signup-lon').val( OW.position.longitude || '')
+      $('#signup-lat').val( OW.position.coords.latitude || '')
+      $('#signup-lon').val( OW.position.coords.longitude || '')
       
       $.post('/signup', $signupForm.serialize(), function(resp){
         var r = JSON.parse(resp)
         log(r)
+        $signupForm.find('input').val('')
         alert("Signup was successful. Stay tuned...")
+        
       }) // end post
       
       return false

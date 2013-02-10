@@ -14,6 +14,9 @@ var express = require('express')
 // Init Invoices...
 var invoices = require(path.resolve(__dirname, 'invoices', './invoices-config.json'))
 
+// Init Signups...
+var signups = require(path.resolve(__dirname, 'signups', './signups-config.json'))
+
 // Init Express app...
 var app = express()
 
@@ -128,10 +131,25 @@ function handleStripePost(obj, res){
   })
 }
 
-// When a charge is posted, let's call out to Stripe...
+// Add signed up user...
 function handleSignupPost(obj, res){
     
-  return res.json(obj)
+  signups.push(obj)
+  
+  res.json(obj)
+  
+  // Now write to file...
+  return updateSignupFile()
+
+}
+
+// Write the signups array to a file
+function updateSignupFile(){
+  // Updating Signup File...
+  fs.writeFile( path.resolve(__dirname, 'signups', './signups-config.json'), JSON.stringify(signups), 'utf-8', function(err){
+    if(err) return console.error(err)
+    console.log("Signups file updated at: "+ (new Date).toLocaleTimeString() )
+  })
 
 }
 

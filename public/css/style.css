@@ -309,6 +309,9 @@ input[type='twitter']:focus {
 .form-item:last-child {
   margin: 6% auto 2%;
 }
+form .error {
+  border: #f00 4px solid;
+}
 @font-face {
   font-family: 'LeagueGothicRegular';
   src: url("/font/League_Gothic-webfont.eot");
