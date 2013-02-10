@@ -33,7 +33,9 @@ $(document).ready(function(){
     
   if($signupForm.length){
     
-    $signupButton.on('click', function(){
+    var signupHandler = function(e){
+
+      $signupButton.attr('disabled', true)
       
       $('.error').removeClass('error')
       
@@ -47,6 +49,9 @@ $(document).ready(function(){
           .val('')
           .addClass('error')
           .focus()
+        
+        $signupButton.removeAttr('disabled')
+          
         return false
       } else if( !( /(.+)@(.+){2,}\.(.+){2,}/.test( $inputEmail.val() ) ) ){
         log('Bad email.')
@@ -54,6 +59,9 @@ $(document).ready(function(){
           .val('')
           .addClass('error')
           .focus()
+        
+        $signupButton.removeAttr('disabled')
+        
         return false
       }        
       
@@ -64,14 +72,34 @@ $(document).ready(function(){
       $.post('/signup', $signupForm.serialize(), function(resp){
         var r = JSON.parse(resp)
         log(r)
+        
         $signupForm.find('input').val('')
+        
+        $signupButton.removeAttr('disabled')
+        
         alert("Signup was successful. Stay tuned...")
         
       }) // end post
       
       return false
+      
+    }
+    
+    $signupButton.on('click', function(e){
+      
+      signupHandler(e)
+      e.preventDefault()
+      return false
 
     }) // end click()
+    
+    $signupForm.on('submit', function(e){
+      signupHandler(e)
+      e.preventDefault()
+      return false
+
+    }) // end submit()
+    
     
   }
 
