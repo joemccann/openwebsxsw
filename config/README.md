@@ -16,7 +16,7 @@ Your `stripe-config.json` file should look like:
 }
 ```
 
-You will need a CouchDB instance as well.
+You will need a CouchDB instance as well. Make sure you shut down the admin party when you create your CouchDB instance.
 
 http://iriscouch.com is great.
 
@@ -25,7 +25,9 @@ Your `couchdb-config.json` file should look like:
 ```
 {
   "db_name": "YOUR_DB_NAME",
-  "db_url": "http://SOME_URL:PORT",
-  "db_secure_url": "https://SOME_URL:PORT"
+  "db_url": "SOME_URL:PORT",
+  "db_secure_url": "SOME_URL:PORT",
+  "username": "YOUR_USERNAME",
+  "password": "YOUR_PASSWORD"
 }
 ```

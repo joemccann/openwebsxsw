@@ -121,6 +121,7 @@ http.createServer(app).listen(app.get('port'), function(){
     console.log('Fetched Signups Attachment doc.')
     // If it's not an array back from couch, then make it an empty one.
     signups = ( Object.prototype.toString.call( d ) === '[object Array]' ? d : [])
+    // console.dir(signups)
 
   })
   
@@ -128,12 +129,23 @@ http.createServer(app).listen(app.get('port'), function(){
   console.log("\nhttp://127.0.0.1:" + app.get('port'))
 })
 
+// Helper method to create couchdb url
+function generateCouchDbUrl(){
+  return  'http://'
+          + couchdb.username
+          +":"
+          + couchdb.password
+          + "@"
+          + couchdb.db_url 
+          + "/" 
+          + couchdb.db_name
+}
+
 // Snag latest id and rev with HEAD; fire callback
 function fetchHeadFromCouch(cb){
 
-  var fullCouchDbUrl = couchdb.db_url + "/" + couchdb.db_name + "/signups"
-
-  var h = {'content-type':'application/json', 'accept':'application/json'}
+  var fullCouchDbUrl = generateCouchDbUrl() + "/signups"
+    , h = {'content-type':'application/json', 'accept':'application/json'}
   
   var config = {
     type: 'HEAD',
@@ -157,12 +169,13 @@ function fetchHeadFromCouch(cb){
 // Fetch the signups doc; firecallback
 function fetchSignupsFromCouch(cb){
   
-  var fullCouchDbUrl = couchdb.db_url + "/" + couchdb.db_name + "/signups/signups.json"
+  var fullCouchDbUrl = generateCouchDbUrl() + "/signups/signups.json"
+    , h = {'content-type':'application/json', 'accept':'application/json'}
 
   var config = {
     type: 'GET',
     url: fullCouchDbUrl,
-    headers: {"Accept": "text/json"}
+    headers: h
   }
   
   request(config, function(e,r,b){
@@ -179,10 +192,11 @@ function fetchSignupsFromCouch(cb){
 
 }
 
+
 // Write new signup to couch; fire callback
 function writeToCouch(rev, res, cb){
   
-  var fullCouchDbUrl = couchdb.db_url + "/" + couchdb.db_name + "/signups?rev="+rev
+  var fullCouchDbUrl = generateCouchDbUrl() + "/signups?rev="+rev
   
   var config = { 
                   method: 'PUT'
@@ -245,7 +259,7 @@ function handleSignupPost(obj, res){
 // and remove dupes
 function getPrunedSignupsList(url){
 
-  var url = url || couchdb.db_url + "/" + couchdb.db_name + "/signups/signups.json"
+  var url = url || generateCouchDbUrl() + "/signups/signups.json"
 
   require('./signup-util/signup-util.js')(url, function(err,data){
     if(err) return console.error(err)
