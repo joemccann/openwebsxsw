@@ -74,7 +74,10 @@ $(document).ready(function(){
       $inputTwitter.val( $inputTwitter.val().replace('@', '') )
       
       $.post('/signup', $signupForm.serialize(), function(resp){
-        var r = JSON.parse(resp)
+        
+        // This is a weird delta between zepto and jquery...
+        var r = (typeof resp === 'string') ? JSON.parse(resp) : resp
+        
         log(r)
         
         $signupForm.find('input').val('')
