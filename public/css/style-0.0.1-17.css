@@ -354,7 +354,7 @@ button span {
   padding: 0 12px;
   height: 30px;
   line-height: 30px;
-  background: #1275ff;
+  background: #29d4c7;
   background-image: -webkit-linear-gradient(#29d4c7, #187f77 85%, #7de6de);
   background-image: -moz-linear-gradient(#29d4c7, #187f77 85%, #7de6de);
   background-image: -ms-linear-gradient(#29d4c7, #187f77 85%, #7de6de);
@@ -372,7 +372,7 @@ button span {
   border-radius: 4px;
 }
 .no-touch button span:hover {
-  background: #5fa2ff;
+  background: #68e2d8;
   background-image: -webkit-linear-gradient(#29d4c7, #187f77 45%, #7de6de);
   background-image: -moz-linear-gradient(#29d4c7, #187f77 45%, #7de6de);
   background-image: -ms-linear-gradient(#29d4c7, #187f77 45%, #7de6de);

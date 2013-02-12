@@ -8,38 +8,23 @@ $trans = translate(85%, 50%)
 @media only screen and (max-width: 90em)
 
   #logo
-    -webkit-transform: $trans
-    -moz-transform: $trans
-    -o-transform: $trans
-    -ms-transform: $trans
-    transform: $trans
-    -webkit-transform-origin: top left
-    -moz-transform-origin: top left
-    -o-transform-origin: top left
-    -ms-transform-origin: top left
-    transform-origin: top left
-  
+    normTransform($trans)
+    normTransformOrigin(top left)
   
 /* 1024px */
 $trans = translate(65%, 33%) scale(0.7,0.7)
 @media only screen and (max-width: 64em)
+
   #logo
-    -webkit-transform: $trans
-    -moz-transform: $trans
-    -o-transform: $trans
-    -ms-transform: $trans
-    transform: $trans
+    normTransform($trans)
       
 
 /* 768px */
 $trans = translate(50%, 25%) scale(0.55,0.55)
 @media only screen and (max-width: 48em)
+
   #logo
-    -webkit-transform: $trans
-    -moz-transform: $trans
-    -o-transform: $trans
-    -ms-transform: $trans
-    transform: $trans
+    normTransform($trans)
 
   section [role="social"]
     margin 7% 0
@@ -48,12 +33,9 @@ $trans = translate(50%, 25%) scale(0.55,0.55)
 /* 640px */
 $trans = translate(42%, 23%) scale(0.4,0.4)
 @media only screen and (max-width: 40em)
+
   #logo
-    -webkit-transform: $trans
-    -moz-transform: $trans
-    -o-transform: $trans
-    -ms-transform: $trans
-    transform: $trans
+    normTransform($trans)
 
   section [role="social"]
     margin 8% 0
@@ -62,12 +44,9 @@ $trans = translate(42%, 23%) scale(0.4,0.4)
 /* 480px */
 $trans = translate(28%, 17%) scale(0.3,0.3)
 @media only screen and (max-width: 30em)
+
   #logo
-    -webkit-transform: $trans
-    -moz-transform: $trans
-    -o-transform: $trans
-    -ms-transform: $trans
-    transform: $trans
+    normTransform($trans)
     
   section [role="main"]
     padding 0 2%
@@ -77,16 +56,8 @@ $trans = translate(28%, 17%) scale(0.3,0.3)
     margin 10% 0
 
 
-
 /* 320px */
 $trans = translate(12%, 7%) scale(0.3,0.3)
 @media only screen and (max-width: 20em)
   #logo
-    -webkit-transform: $trans
-    -moz-transform: $trans
-    -o-transform: $trans
-    -ms-transform: $trans
-    transform: $trans
-
-
-
+    normTransform($trans)
