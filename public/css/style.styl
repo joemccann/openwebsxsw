@@ -40,10 +40,64 @@ a
   color: darken(#29d4c7,2)
   text-decoration underline
 
-p
+.maxwidthcenter
+  max-width 480px
+  margin 0 auto
+
+.justify
+  text-align justify
+
+.header-block
+  background #bbb
+  padding 4% 0
+  margin 0 auto
+
+.imgstyle
+  boxShadow(8px 8px 6px -6px rgba(0,0,0, 0.56))
+  margin 0 auto
+
+p, li
   font-size 1.6em
   font-weight 100  
+
+h1
+  font-size 3.6em
+  font-weight normal
+  line-height 1.2
+
+h2
+  font-size 2.4em
+  font-weight 200
+  line-height 1.1
+
+ul
+  list-style-type none
+  margin 0
+  padding 0
   
+li
+  margin 2% 0
+
+li img
+  margin 0 auto 2.5%
+
+
+footer
+  margin 3% auto
+  text-align: center
+  width: 100%
+
+section [role="main"]
+  width 100%
+
+section [role="social"]
+  margin 3% 0
+
+section [role="sponsors"] > a
+  display block
+  font-size 1.4em
+  font-weight 100
+
 #container
   margin 0 auto
   text-align center
@@ -61,33 +115,17 @@ p
 #logo
   display inline-block
   margin 0 auto
+
+#details
+  margin-bottom 4%
+
+#vallarta
+  margin 0 auto
   
 header
   -webkit-box-shadow: 0 8px 6px -6px rgba(0,0,0, 0.56)
   -moz-box-shadow: 0 8px 6px -6px black
   -webkit-box-shadow: 0 1px 6px 1px rgba(0,0,0, 0.56)
-
-h1
-  font-size 3.6em
-  font-weight normal
-  line-height 1.2
-
-footer
-  margin 3% auto
-  text-align: center
-  width: 100%
-  
-section [role="main"]
-  width 100%
-
-section [role="social"]
-  margin 3% 0
-
-section [role="sponsors"] > a
-  display block
-  font-size 1.4em
-  font-weight 100
-
 
 fieldset
   border none
@@ -129,6 +167,24 @@ input[type='twitter']:focus
 
 form .error
   border red 4px solid
+
+
+/* http://tympanus.net/Tutorials/ModernBlockQuoteStyles/ */
+
+.mb
+  background lighten($linkColor,25)
+
+.mb blockquote p {
+    font-family: Cambria, Georgia, serif;
+    font-style: italic;
+    font-size: 1.8em;
+    boxShadow(0 1px 0 rgba(255,255,255,0.1))
+    padding: 6%;
+    text-align: center;
+    margin: 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+}
+
   
 @import 'buttons'
 @import 'responsive'

@@ -41,6 +41,10 @@ $trans = translate(42%, 23%) scale(0.4,0.4)
     margin 8% 0
 
 
+  #details
+    margin-bottom 7%
+
+
 /* 480px */
 $trans = translate(28%, 17%) scale(0.3,0.3)
 @media only screen and (max-width: 30em)
@@ -55,9 +59,19 @@ $trans = translate(28%, 17%) scale(0.3,0.3)
   section [role="social"]
     margin 10% 0
 
+  #details
+    margin-bottom 15%
+    
+  .maxwidthcenter
+    max-width 320px
+
+
 
 /* 320px */
 $trans = translate(12%, 7%) scale(0.3,0.3)
 @media only screen and (max-width: 20em)
   #logo
     normTransform($trans)
+
+  #details
+    margin-bottom 10%
