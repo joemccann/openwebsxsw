@@ -2,7 +2,7 @@
 var $lib = ('__proto__' in {} ? 'zepto.min' : 'jquery.min')
 require(["log",  $lib ], function(l, zepto){
   log($lib + ' and Log loaded...')
-  require(["openwebsxsw-0.0.2.min"], function(openwebsxsw){
+  require(["openwebsxsw-0.0.2-1.min"], function(openwebsxsw){
     log('All JS files loaded...')
   })
 })

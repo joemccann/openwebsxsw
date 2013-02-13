@@ -2,14 +2,20 @@
 
 /* 1em = 16px */
 
-/* 1440px */
+/* 1920px */
+$trans = translate(105%, 85%)
+@media only screen and (max-width: 120em)
 
+  #logo
+    normTransform($trans)
+    normTransformOrigin(top left)
+
+/* 1440px */
 $trans = translate(85%, 50%)
 @media only screen and (max-width: 90em)
 
   #logo
     normTransform($trans)
-    normTransformOrigin(top left)
   
 /* 1024px */
 $trans = translate(65%, 33%) scale(0.7,0.7)
