@@ -115,16 +115,31 @@ app.post('/charge', function(req, res){
 // Fire up server...
 http.createServer(app).listen(app.get('port'), function(){
   
-  // Fetch the signups
-  fetchSignupsFromCouch(function(e,d){
-    if(e) return console.error(e)
+  // Prune the list of signups on start of app...
+  getPrunedSignupsList(null, function(err,data){
+    if(err) return console.error(err)
 
-    console.log('Fetched Signups Attachment doc.')
-    // If it's not an array back from couch, then make it an empty one.
-    signups = ( Object.prototype.toString.call( d ) === '[object Array]' ? d : [])
-    // console.dir(signups)
+    fetchHeadFromCouch(function(e,d){
+      // console.dir(d)
+      var rev = d._rev
+      writeToCouch(rev, null, data, function(e,d){
+        if(e) return console.error(e)
+        console.log("Updated signups attachment after pruning it.")
+        
+        // Fetch the signups
+        fetchSignupsFromCouch(function(e,d){
+          if(e) return console.error(e)
 
-  })
+          console.log('Fetched Signups Attachment doc.')
+          // If it's not an array back from couch, then make it an empty one.
+          signups = ( Object.prototype.toString.call( d ) === '[object Array]' ? d : [])
+          // console.dir(signups)
+
+        }) // end fetchSignupsFromCouch
+      }) // end writeToCouch  
+    }) // end fetchHeadFromCouch
+  }) // end getPrunedSignupsList
+  
   
   console.log("Express server listening on port " + app.get('port'))
   console.log("\nhttp://127.0.0.1:" + app.get('port'))
@@ -193,9 +208,26 @@ function fetchSignupsFromCouch(cb){
 
 }
 
+// Helper method to generate couchdb signups attachment
+function generateSignupsAttachment(signupBody){
+  
+  var body = signupBody || signups // array of signups outside this scope
+  
+  return JSON.stringify
+    (
+      { _attachments: 
+        { 'signups.json': 
+          { follows: true
+          ,  length: JSON.stringify(body).length
+          , 'content_type': 'text/json' 
+          }
+        }
+      }
+    )
+}
 
 // Write new signup to couch; fire callback
-function writeToCouch(rev, res, cb){
+function writeToCouch(rev, res, signupBody, cb){
   
   var fullCouchDbUrl = generateCouchDbUrl() + "/signups?rev="+rev
   
@@ -204,10 +236,11 @@ function writeToCouch(rev, res, cb){
                 , uri: fullCouchDbUrl
                 , multipart: 
                   [ { 'content-type': 'application/json'
-                    ,  body: JSON.stringify({_attachments: {'signups.json': {follows: true, length: JSON.stringify(signups).length,
-                       'content_type': 'text/json' }}})
+                    , body: generateSignupsAttachment(signupBody)
                     }
-                  , { body: JSON.stringify(signups) }
+                  , { 
+                      body: JSON.stringify(signupBody) 
+                    }
                   ]
               }
   
@@ -248,7 +281,9 @@ function handleSignupPost(obj, res){
   fetchHeadFromCouch(function(e,d){
     // console.dir(d)
     var rev = d._rev
-    writeToCouch(rev, res, function(e){
+    // Pass the latest revision, the response object
+    // the signups array and the callback...
+    writeToCouch(rev, res, signups, function(e){
       if(e) return res.json(e)
       return res.json(obj)
     })  
@@ -258,7 +293,7 @@ function handleSignupPost(obj, res){
 
 // A helper method to fetch the signups.json attachment (file)
 // and remove dupes
-function getPrunedSignupsList(url){
+function getPrunedSignupsList(url, cb){
 
   var url = url || generateCouchDbUrl() + "/signups/signups.json"
 
@@ -268,10 +303,14 @@ function getPrunedSignupsList(url){
     fs.writeFile( path.resolve(__dirname, "signup-util", "signups.json"), JSON.stringify(data), 'utf-8', function(err){
       if(err) return console.error(err)
 
-      console.log('signups.json File written')
+      // console.log('signups.json File written')
 
       var f = fs.readFileSync(path.resolve(__dirname, "signup-util", "signups.json"), 'utf-8')
-      // console.dir(JSON.parse(f))
+
+      console.dir(JSON.parse(f).length + " is the total number of signups.")
+      
+      cb(null,JSON.parse(f))
+      
     }) // end writeFile
     
   })
