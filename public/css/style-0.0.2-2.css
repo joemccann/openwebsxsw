@@ -214,6 +214,7 @@ a {
   text-decoration: underline;
 }
 .maxwidthcenter {
+  width: 100%;
   max-width: 480px;
   margin: 0 auto;
 }
@@ -535,6 +536,10 @@ button span {
   }
 }
 @media only screen and (max-width: 20em) {
+  .pad {
+    width: 96%;
+    padding: 0 2%;
+  }
   #logo {
     -webkit-transform: translate(12%, 7%) scale(0.3, 0.3);
     -moz-transform: translate(12%, 7%) scale(0.3, 0.3);
