@@ -166,7 +166,7 @@ $(document).ready(function(){
     // first hide the fallback div
     $('#location-fallback').hide()
     // now, show the map/directions
-    loadMapJs()
+    // loadMapJs()
     
   }
   
