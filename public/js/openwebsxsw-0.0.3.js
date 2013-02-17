@@ -1,15 +1,16 @@
-/* Wire stripe payments */
+
 $(document).ready(function(){
   
   log('Ready...')
   
   // Global
-  window.OW = {}
+  window.OW = {position:null, hasTouch:true}
   
   // Check for touch events (note: this is not exhaustive)
-  if( !('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) 
+  if( !('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch){
     document.documentElement.className = "no-touch"
-
+    OW.hasTouch = false
+  } 
 
   // Get user's location and stash...
   if (navigator.geolocation){
@@ -19,6 +20,7 @@ $(document).ready(function(){
   
   function geoSuccess(position) {
     OW.position = position.coords
+    initLocationHandlers()
   }
 
   function geoError(msg) {
@@ -154,6 +156,63 @@ $(document).ready(function(){
     })
     
   } // end if stripeButton length
+  
   /* End Stripe Invoice Payments... ****************************/
+  
+  /* Handle Location Mapping... ********************************/
+  
+  // A wrapper that is called after geo is found/not found...
+  function initLocationHandlers(){
+    // first hide the fallback div
+    $('#location-fallback').hide()
+    // now, show the map/directions
+    loadMapJs()
+    
+  }
+  
+  function loadMapJs(cb){
+
+    var key
+
+    // Need different api key in localhost environment vs production
+    if(/localhost/.test(location.href) || /127.0.0.1/.test(location.href)){
+      key = 'AIzaSyB3EZrxj8MqP881fnxq3txiHtoERjrsop0'
+    }
+    else key = 'AIzaSyB22ZpoSy-x1R4mkDGwm6H2AoyVnnFzzY0'
+
+    // the callback has to get added to the async js request
+    var lib = 'https://maps.googleapis.com/maps/api/js?key='+key+
+              '&callback=showMap&sensor='+ (OW.hasTouch ? true : false);
+
+    (function() {
+      var gmapsLib = document.createElement('script'); gmapsLib.type = 'text/javascript'; gmapsLib.async = true;
+      gmapsLib.src = lib
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gmapsLib, s);
+  
+      gmapsLib.onload = function(){
+        log('Loaded gmaps js...')
+        cb && cb()
+      }
+  
+    })()
+    
+  }
+  
+  // needs to be added to global because of async fetch of gmaps js file
+  window.showMap = function(){
+      log("Location stuff is coming soon, bro.")
+      // var mapOptions = {
+      //     center: new google.maps.LatLng(30.269555,-97.751337),
+      //     zoom: 15,
+      //     mapTypeId: google.maps.MapTypeId.ROADMAP
+      //   };
+      //   var map = new google.maps.Map(document.getElementById("map"),
+      //       mapOptions);
+      //       
+      //   $('#map').addClass('imgstyle')
+  }
+  
+  /* End Location Mapping... ***********************************/
+  
   
 })

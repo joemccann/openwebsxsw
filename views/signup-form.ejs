@@ -1,21 +1,26 @@
-<form id="signup-form" action="/signup" method="POST">
-  <fieldset>
-    <input type="hidden" name="lat" id="signup-lat" value="">
-    <input type="hidden" name="lon" id="signup-lon" value="">
-    <div class="form-item">
-        <label for="name">Name</label>
-        <input name="name" type="name" required="true" value=""></input>
-    </div>
-    <div class="form-item">
-      <label for="email">Email Address</label>
-      <input name="email" type="email" required="true" value=""></input>
-    </div>
-    <div class="form-item">
-      <label for="twitter">Twitter Username (optional)</label>
-      <input name="twitter" type="twitter" value=""></input>
-    </div>
-    <div class="form-item">
-      <button id="signup-button"><span>Register!</span></button>
-    </div>
-  </fieldset>
-</form>
+<section role="signup" id="signup">
+  <div class="pad maxwidthcenter">
+    <h2 class="header-block">Registration</h2>
+    <form id="signup-form" action="/signup" method="POST">
+      <fieldset>
+        <input type="hidden" name="lat" id="signup-lat" value="">
+        <input type="hidden" name="lon" id="signup-lon" value="">
+        <div class="form-item">
+            <label for="name">Name</label>
+            <input name="name" type="name" required="true" value=""></input>
+        </div>
+        <div class="form-item">
+          <label for="email">Email Address</label>
+          <input name="email" type="email" required="true" value=""></input>
+        </div>
+        <div class="form-item">
+          <label for="twitter">Twitter Username (optional)</label>
+          <input name="twitter" type="twitter" value=""></input>
+        </div>
+        <div class="form-item">
+          <button id="signup-button"><span>Register!</span></button>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>
