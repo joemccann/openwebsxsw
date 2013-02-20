@@ -24,18 +24,6 @@ var couchdb = require(path.resolve(__dirname, 'config', './couch-config.json'))
 var app = express()
 
 app.configure(function(){
-  
-  app.set('port', process.env.PORT || 3100)
-  app.set('views', __dirname + '/views')
-  app.set('view engine', 'ejs')
-  app.use(express.favicon())
-  app.use(express.logger('dev'))
-  app.use(express.compress())
-  app.use(express.bodyParser())
-  app.use(express.methodOverride())
-  app.use(app.router)
-  app.use(require('stylus').middleware(__dirname + '/public'))
-  app.use(express.static(path.join(__dirname, 'public')))
 
   var package = require(path.resolve(__dirname, './package.json'))
   
@@ -45,6 +33,19 @@ app.configure(function(){
   app.locals.node_version = process.version.replace('v', '')
   app.locals.app_version = package.version
   app.locals.env = process.env.NODE_ENV
+  
+  app.set('port', process.env.PORT || 3100)
+  app.set('views', __dirname + '/views')
+  app.set('view engine', 'ejs')
+  app.use(express.favicon())
+  app.use(express.logger(app.locals.env === 'production' ? 'tiny' : 'dev' ))
+  app.use(express.compress())
+  app.use(express.bodyParser())
+  app.use(express.methodOverride())
+  app.use(app.router)
+  app.use(require('stylus').middleware(__dirname + '/public'))
+  app.use(express.static(path.join(__dirname, 'public')))
+
 
   // Init Stripe...
   var stripeKeys = require(path.resolve(__dirname, 'config', './stripe-config.json'))
