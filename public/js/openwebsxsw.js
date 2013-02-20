@@ -1,4 +1,3 @@
-
 $(document).ready(function(){
   
   log('Ready...')
@@ -141,12 +140,12 @@ $(document).ready(function(){
     }
     
     var stripeConfig = {
-      key:         $stripeButton[0].dataset.key,
+      key:         $stripeButton[0].getAttribute("data-key"),
       address:     false,
-      amount:      $stripeButton[0].dataset.amount,
-      name:        $stripeButton[0].dataset.name,
-      description: $stripeButton[0].dataset.description,
-      currency:    $stripeButton[0].dataset.currency, 
+      amount:      $stripeButton[0].getAttribute("data-amount"),
+      name:        $stripeButton[0].getAttribute("data-name"),
+      description: $stripeButton[0].getAttribute("data-description"),
+      currency:    $stripeButton[0].getAttribute("data-currency"), 
       token:       stripeTokenCallback
     }
     
