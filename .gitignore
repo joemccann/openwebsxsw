@@ -3,3 +3,5 @@ node_modules
 *-config.json
 sort-signups
 signups.json
+style-*.css
+openwebsxsw-*.js
