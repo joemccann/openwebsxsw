@@ -337,8 +337,13 @@ function walkAndUnlink(dirPath, regex){
 
 // Removes old css/js files.
 function cleaner(){
-  walkAndUnlink( path.join(__dirname, 'public', 'css'), new RegExp(/style-/) )
-  walkAndUnlink( path.join(__dirname, 'public', 'js'), new RegExp(/openwebsxsw-/) )
+  // Compress/concat files for deploy env...
+  // Need to run this locally BEFORE deploying
+  // to nodejitsu
+  if(app.locals.env === 'predeploy'){
+    walkAndUnlink( path.join(__dirname, 'public', 'css'), new RegExp(/style-/) )
+    walkAndUnlink( path.join(__dirname, 'public', 'js'), new RegExp(/openwebsxsw-/) )
+  }
 }
 
 // Concats, minifies js and css for production
