@@ -9,6 +9,7 @@ var express = require('express')
   , path = require('path')
   , fs = require('fs')
   , request = require('request')
+  , walkdir = require('walkdir')
   , stripe
   , signups
   ;
@@ -65,7 +66,8 @@ app.configure(function(){
   app.locals['api_key_publishable_production'] = stripeKeys["api-key-publishable-production"]
   
   // Concat/minify
-  smoosher()
+  cleaner()
+  process.nextTick(smoosher)
 
 })
 
@@ -317,6 +319,28 @@ function getPrunedSignupsList(url, cb){
   
 }
 
+// Pass in a path of a directory to walk and a 
+// regex to match against.  The file(s) matching
+// the patter will be deleted.
+function walkAndUnlink(dirPath, regex){
+  
+  var emitter = walkdir(dirPath)
+
+  emitter.on('file',function(filename,stat){
+    if( regex.test(filename) ){
+      console.log("Removing old file: " + filename)
+      fs.unlinkSync( path.resolve( dirPath, filename) )
+    }
+  })
+  
+}
+
+// Removes old css/js files.
+function cleaner(){
+  walkAndUnlink( path.join(__dirname, 'public', 'css'), new RegExp(/style-/) )
+  walkAndUnlink( path.join(__dirname, 'public', 'js'), new RegExp(/openwebsxsw-/) )
+}
+
 // Concats, minifies js and css for production
 function smoosher(){
 
@@ -326,6 +350,8 @@ function smoosher(){
   if(app.locals.env === 'predeploy'){
     // Smoosh the things
     var smoosh = require('smoosh')
+    
+    // Remove old css/js
     
     smoosh.make({
       "VERSION": app.locals.app_version,
