@@ -303,35 +303,34 @@ section [role="sponsors"] > a {
   margin: 0 auto;
 }
 #sponsors a {
-  display: block;
+  display: inline-block;
+  margin: 2%;
 }
 .sponsor {
   width: 240px;
   margin: 3% auto;
+  height: 240px;
 }
 #sponsor-adobe {
   background: transparent url("/img/sponsor-adobe.png") no-repeat top left scroll;
-  height: 240px;
 }
 #sponsor-microsoft {
   background: transparent url("/img/sponsor-microsoft.png") no-repeat top left scroll;
-  height: 56px;
+}
+#sponsor-uber {
+  background: transparent url("/img/sponsor-uber.png") no-repeat top left scroll;
 }
 #sponsor-node-firm {
   background: transparent url("/img/sponsor-node-firm.png") no-repeat top left scroll;
-  height: 240px;
 }
 #sponsor-titos {
   background: transparent url("/img/sponsor-titos.jpg") no-repeat top left scroll;
-  height: 240px;
 }
 #sponsor-spacecraft {
   background: transparent url("/img/sponsor-spacecraft.png") no-repeat top left scroll;
-  height: 240px;
 }
 #sponsor-kendo-ui {
   background: transparent url("/img/sponsor-kendo-ui.png") no-repeat top left scroll;
-  height: 85px;
 }
 header {
   -webkit-box-shadow: 0 8px 6px -6px rgba(0,0,0,0.56);
