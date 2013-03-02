@@ -10,6 +10,7 @@ var express = require('express')
   , fs = require('fs')
   , request = require('request')
   , walkdir = require('walkdir')
+  , mailer = require('./util/google-apps-email-util.js')
   , stripe
   , signups
   ;
@@ -335,6 +336,22 @@ function walkAndUnlink(dirPath, regex){
   })
   
 }
+
+/******
+
+Email testing...
+
+******/
+
+function emailTest(){
+  mailer.sendEmail(null,null,null,null,null,function(err,data){
+    if(err) return console.error(err)
+    console.log(data)
+  })
+}
+
+// emailTest()
+
 
 // Removes old css/js files.
 function cleaner(){
