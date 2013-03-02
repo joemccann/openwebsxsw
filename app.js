@@ -300,15 +300,15 @@ function getPrunedSignupsList(url, cb){
 
   var url = url || generateCouchDbUrl() + "/signups/signups.json"
 
-  require('./signup-util/signup-util.js')(url, function(err,data){
+  require('./util/signup-util.js')(url, function(err,data){
     if(err) return console.error(err)
     
-    fs.writeFile( path.resolve(__dirname, "signup-util", "signups.json"), JSON.stringify(data), 'utf-8', function(err){
+    fs.writeFile( path.resolve(__dirname, "util", "signups.json"), JSON.stringify(data), 'utf-8', function(err){
       if(err) return console.error(err)
 
       // console.log('signups.json File written')
 
-      var f = fs.readFileSync(path.resolve(__dirname, "signup-util", "signups.json"), 'utf-8')
+      var f = fs.readFileSync(path.resolve(__dirname, "util", "signups.json"), 'utf-8')
 
       console.dir(JSON.parse(f).length + " is the total number of signups.")
       

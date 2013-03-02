@@ -14,8 +14,8 @@ module.exports = function (url, cb) {
     data = JSON.parse(data)
 
     var removeDupeNames = removeDupes(data, 'name')    
-    var removeDupeEmails = removeDupes(removeDupeNames, 'email')    
-    var removeDupeTwitter = removeDupes(removeDupeEmails, 'twitter') 
+      , removeDupeEmails = removeDupes(removeDupeNames, 'email')    
+      , removeDupeTwitter = removeDupes(removeDupeEmails, 'twitter') 
     
     return cb(null,removeDupeTwitter)
 
