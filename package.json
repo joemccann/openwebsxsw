@@ -1,10 +1,11 @@
 {
   "name": "Open-Web-SXSW",
   "description": "Website for the Open Web SXSW Party.",
-  "version": "0.0.4-2",
+  "version": "0.0.4-3",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "predeploy": "node build.js"
   },
   "dependencies": {
     "express": "3.0.0rc3",
@@ -16,6 +17,10 @@
     "lodash": ">=1.0.0-rc.3",
     "walkdir": ">=0.0.5",
     "nodemailer": ">=0.3.43"
+  },
+  "devDependencies": {
+    "smoosh": ">=0.4.0",
+    "walkdir": ">=0.0.5"
   },
   "engines": {
     "node": "0.8.x"

@@ -9,7 +9,6 @@ var express = require('express')
   , path = require('path')
   , fs = require('fs')
   , request = require('request')
-  , walkdir = require('walkdir')
   , mailer = require('./util/google-apps-email-util.js')
   , stripe
   , signups
@@ -66,10 +65,6 @@ app.configure(function(){
   // Set these for use in views...
   app.locals['api_key_publishable_test'] = stripeKeys["api-key-publishable-test"]
   app.locals['api_key_publishable_production'] = stripeKeys["api-key-publishable-production"]
-  
-  // Concat/minify
-  cleaner()
-  process.nextTick(smoosher)
 
 })
 
@@ -321,22 +316,6 @@ function getPrunedSignupsList(url, cb){
   
 }
 
-// Pass in a path of a directory to walk and a 
-// regex to match against.  The file(s) matching
-// the patter will be deleted.
-function walkAndUnlink(dirPath, regex){
-  
-  var emitter = walkdir(dirPath)
-
-  emitter.on('file',function(filename,stat){
-    if( regex.test(filename) ){
-      console.log("Removing old file: " + filename)
-      fs.unlinkSync( path.resolve( dirPath, filename) )
-    }
-  })
-  
-}
-
 /******
 
 Email testing...
@@ -353,68 +332,3 @@ function emailTest(){
 // emailTest()
 
 
-// Removes old css/js files.
-function cleaner(){
-  // Compress/concat files for deploy env...
-  // Need to run this locally BEFORE deploying
-  // to nodejitsu
-  if(app.locals.env === 'predeploy'){
-    walkAndUnlink( path.join(__dirname, 'public', 'css'), new RegExp(/style-/) )
-    walkAndUnlink( path.join(__dirname, 'public', 'js'), new RegExp(/openwebsxsw-/) )
-  }
-}
-
-// Concats, minifies js and css for production
-function smoosher(){
-
-  // Compress/concat files for deploy env...
-  // Need to run this locally BEFORE deploying
-  // to nodejitsu
-  if(app.locals.env === 'predeploy'){
-    // Smoosh the things
-    var smoosh = require('smoosh')
-    
-    // Remove old css/js
-    
-    smoosh.make({
-      "VERSION": app.locals.app_version,
-      "JSHINT_OPTS": {
-        "browser": true,
-        "evil":true, 
-        "boss":true, 
-        "asi": true, 
-        "laxcomma": true, 
-        "expr": true, 
-        "lastsemic": true, 
-        "laxbreak":true,
-        "regexdash": true,
-      },
-      "JAVASCRIPT": {
-        "DIST_DIR": "./public/js",
-        "openwebsxsw": [ "./public/js/openwebsxsw.js" ]
-      },
-      "CSS": {
-        "DIST_DIR": "./public/css",
-        "style": [ "./public/css/style.css" ]
-      }
-    })
-    .done(function(){
-      // Write boot.prod-VERSION.js
-      var js = fs.readFileSync( path.resolve(__dirname, 'public', 'js', 'boot.js'), 'utf-8')
-      
-      var newProdFile = 'openwebsxsw-'+app.locals.app_version+'.min'
-      
-      var write = js.replace('openwebsxsw', newProdFile)
-      
-      fs.writeFile( path.resolve(__dirname, 'public', 'js', 'boot.prod.js'), write, 'utf-8', function(err,data){
-       if(err) return console.error(err)
-       
-       console.log("Wrote the latest version: " + newProdFile)
-        
-      })
-      console.log('\nSmoosh done.\n')
-    })
-    
-  } // end if production env
-  
-}
