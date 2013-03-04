@@ -297,7 +297,11 @@ function getPrunedSignupsList(url, cb){
   var url = url || generateCouchDbUrl() + "/signups/signups.json"
 
   require('./util/signup-util.js')(url, function(err,data){
-    if(err) return console.error(err)
+    if(err) {
+      console.warn("Error from signup-util trying to fetch json doc from an url...")
+      // Todo is
+      return console.error(err)
+    }
     
     fs.writeFile( path.resolve(__dirname, "util", "signups.json"), JSON.stringify(data), 'utf-8', function(err){
       if(err) return console.error(err)

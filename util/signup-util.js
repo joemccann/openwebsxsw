@@ -11,7 +11,15 @@ module.exports = function (url, cb) {
     
     if(err) return cb(err)
 
-    data = JSON.parse(data)
+    // Try/Catch parse json, if not, then it's an
+    // error string from iriscouch. They will still send a 200
+    // even when there's an internal error so can't trust response code
+
+    try{
+      data = JSON.parse(data)
+    }catch(e){
+      return cb(new Error(data))
+    }
 
     var removeDupeNames = removeDupes(data, 'name')    
       , removeDupeEmails = removeDupes(removeDupeNames, 'email')    
