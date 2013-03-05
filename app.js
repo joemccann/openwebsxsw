@@ -10,8 +10,12 @@ var express = require('express')
   , fs = require('fs')
   , request = require('request')
   , mailer = require('./util/google-apps-email-util.js')
+  , klout = require('./util/klout-filter-util.js')
+  , _ = require('lodash')
+  , async = require('async')
   , stripe
   , signups
+  , kloutCache = []
   ;
 
 // Init Invoices...
@@ -74,6 +78,63 @@ app.configure('development', function(){
 
 // Handle index page.
 app.get('/', routes.index)
+
+
+// Handle emails page.
+// TODO:  ADD SOME BASELINE CACHING SO WE AREN'T DOING THIS ON EVERY REQUEST
+app.get('/emails', function(req,res){
+  
+  var handles = []
+  
+  // If we have a cached version, serve this...
+  if(kloutCache.length) return res.render('view-email-addresses', {emails: kloutCache})
+    
+  // If no signups, then something went wrong when fetching the 
+  // signups.json  
+  if(signups.length){
+
+    // Iterate over all the signups adding cleaned twitter handles
+    // to the handles array
+    signups.forEach(function(el,i){
+      handles.push(el.twitter ? el.twitter.replace('@','').replace("'", "").replace('"', '') : 'tester')
+    })
+
+    // Create array of urls as klout only lets us batch
+    // requests with 99 usernames at a time.
+    var urls = klout.getKlout(handles, null, null)
+
+    // Now, let's get a large object containing all the klout scores
+    klout.getKloutScores(urls, function(err, data){
+
+      if(err){
+        console.error(err)
+        return res.send(500)
+      }
+      
+      // Now, let's add the klout scores to each individual's object
+      // which includes their email address, name, twitter, etc.
+      var addedToSet = klout.addKloutScoreToSet(signups, handles, data)
+
+      // For Fun, let's filter folks that have a Klout score higher than 59 and add to cache
+      var filtered = kloutCache = _.filter(addedToSet, function(el) { return parseInt(el.klout) > 59 })
+      
+      // Create a quick cache so we aren't pounding Klout's API every time.
+      setTimeout( function(){
+        var f = new Date()
+        var d = f.toLocaleDateString()
+        var t = f.toLocaleTimeString() 
+        console.log("Invalidated Klout Cache at " + t + " on " + d)
+        kloutCache = []
+      }, 60000)
+
+      return res.render('view-email-addresses', {emails: filtered})
+
+    }) // end getKloutScores
+    
+  }
+  else return res.render('view-email-addresses', {emails: []})
+  
+})
 
 // Handle incoming invoice number
 app.get('/invoice/:number', function(req,res,next){
@@ -143,6 +204,17 @@ http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'))
   console.log("\nhttp://127.0.0.1:" + app.get('port'))
 })
+
+// Helper method to just clean up twitter handles to only
+// the handles and no special chars
+function cleanTwitterNames(set){
+  set.forEach(function(el,i){
+    if(el.twitter){
+      set[i].twitter = set[i].twitter.replace('@', '').replace('"', '').replace("'", "").replace('#','')
+    } 
+  })
+  return set
+}
 
 // Helper method to create couchdb url
 function generateCouchDbUrl(){
@@ -302,6 +374,9 @@ function getPrunedSignupsList(url, cb){
       // Todo is
       return console.error(err)
     }
+
+    // Cleanup any old, rogue twitter names...
+    data = cleanTwitterNames(data)
     
     fs.writeFile( path.resolve(__dirname, "util", "signups.json"), JSON.stringify(data), 'utf-8', function(err){
       if(err) return console.error(err)

@@ -281,6 +281,20 @@ section [role="sponsors"] > a {
   font-size: 1.4em;
   font-weight: 100;
 }
+li.odd {
+  background-color: #ddd;
+}
+li.even {
+  background-color: #fff;
+}
+li.odd,
+li.even {
+  margin: 2% auto;
+}
+.emailcontainer {
+  max-width: 720px;
+  margin: 0 auto;
+}
 #container {
   margin: 0 auto;
   text-align: center;
