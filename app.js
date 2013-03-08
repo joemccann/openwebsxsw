@@ -367,8 +367,9 @@ function handleSignupPost(obj, res){
 function getPrunedSignupsList(url, cb){
 
   var url = url || generateCouchDbUrl() + "/signups/signups.json"
+    , signupUtil = require('./util/signup-util.js')
 
-  require('./util/signup-util.js')(url, function(err,data){
+  signupUtil.removeDupes(url, function(err,data){
     if(err) {
       console.warn("Error from signup-util trying to fetch json doc from an url...")
       // Todo is
@@ -395,19 +396,5 @@ function getPrunedSignupsList(url, cb){
   
 }
 
-/******
-
-Email testing...
-
-******/
-
-function emailTest(){
-  mailer.sendEmail(null,null,null,null,null,function(err,data){
-    if(err) return console.error(err)
-    console.log(data)
-  })
-}
-
-// emailTest()
 
 

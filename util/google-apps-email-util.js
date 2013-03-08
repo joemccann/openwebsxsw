@@ -52,7 +52,8 @@ function Email(){
           to: toAddress, 
           subject: subject, 
           text: text, 
-          html: html 
+          html: html,
+          generateTextFromHTML: true
       }
 
       // send mail with defined transport object

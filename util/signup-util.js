@@ -5,7 +5,7 @@ var fs = require('fs')
 
 // Fetches the json from a url, then removes dupes
 // returns un-duped array
-module.exports = function (url, cb) {
+module.exports.removeDupes = function (url, cb) {
   
   request(url, function(err,r,data){
     
@@ -28,6 +28,33 @@ module.exports = function (url, cb) {
     return cb(null,removeDupeTwitter)
 
   })
+  
+}
+
+// Returns just an array of the emails from a signups file
+module.exports.getArrayOfEmails = function (pathToJsonFile){
+  
+  var json = require(pathToJsonFile)
+    ,  emails = []
+  
+  json.forEach(function(el,i){
+    emails.push( cleanEmail(el.email) )
+  })
+  
+  return emails
+  
+}
+
+// trims whitespace from emails
+function cleanEmail(email){
+  
+  if (typeof String.prototype.trim != 'function') { // detect native implementation
+    String.prototype.trim = function () {
+      return this.replace(/^\s+/, '').replace(/\s+$/, '');
+    };
+  }
+  
+  return email.trim()
   
 }
 
