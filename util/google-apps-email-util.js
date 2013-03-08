@@ -39,10 +39,11 @@ function Email(){
 
   return {
     loadConfig: _loadConfig,
-    sendEmail: function(fromSender, toRecipient, subject, emailText, emailHtml, cb){
+    sendEmail: function(fromSender, toRecipient, bcc, subject, emailText, emailHtml, cb){
 
       var fromAddress = fromSender || "Open Web SXSW <boom@openwebsxsw.com>"
-        , toAddress = toRecipient || "joe@subprint.com" 
+        , toAddress = toRecipient || "boom@openwebsxsw.com" 
+        , bcc = bcc || "boom@openwebsxsw.com" 
         , subject = subject || "Party Time!"
         , text = emailText || "Almost time for a party, bro." 
         , html = emailHtml || "Almost time for a party, <b>bro.</b>" 
@@ -50,6 +51,7 @@ function Email(){
       var mailOptions = {
           from: fromAddress, 
           to: toAddress, 
+          bcc: bcc,
           subject: subject, 
           text: text, 
           html: html,
