@@ -1,10 +1,9 @@
 var path = require('path')
   , fs = require('fs')
   , request = require('request')
-  , mailer = require('../util/google-apps-email-util.js')
+  , mailer = require('../util/sendgrid-util.js')
   , signupUtil = require('../util/signup-util.js')
   , _ = require('lodash')
-
 
 
 /******
@@ -36,18 +35,16 @@ function emailTest(){
   var html = fs.readFileSync( path.resolve(__dirname, '..', 'public/email/welcome.html') )
   
   // var emails = signupUtil.getArrayOfEmails( path.resolve( __dirname, '..', 'util/signups.json') )
-  var emails = require('./wins.json').failedRecipients
+  // var emails = require('./remaining-lots.json')
 
   var fails = []
     , wins = []
   
   //  sendEmail: function(fromSender, toRecipient, bcc, subject, emailText, emailHtml, cb){}
-
-  var emailLots = sliceTo150( emails, [] )
+  var emailLots = require('./remaining-lots-ignore.json')
   
-  emailLots.shift()
-  
-  return writeFile(JSON.stringify(emailLots), 'remaining-lots.json')
+  // emailLots.shift()
+  // return writeFile(JSON.stringify(emailLots), 'remaining-lots.json')
   
   var emailInterval = setInterval(function(){
     
@@ -74,7 +71,7 @@ function emailTest(){
     }) // end sendEmail
 
     
-  },60000) // end setInterval
+  },5000) // end setInterval
       
 }
 
