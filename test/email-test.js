@@ -12,6 +12,7 @@ Email testing...
 
 ******/
 
+
 // Helper to slice an array up into 150 element instances
 function sliceTo150(emails, all, num){
 
@@ -29,49 +30,28 @@ function sliceTo150(emails, all, num){
   
 }
 
-// fucking google apps has a 500 emails/day limit
-function emailTest(){
+function emailer(pathToEmailFile, pathToEmailAddressJson){
   
-  var html = fs.readFileSync( path.resolve(__dirname, '..', 'public/email/welcome.html') )
+  var html = fs.readFileSync( pathToEmailFile )
   
   // var emails = signupUtil.getArrayOfEmails( path.resolve( __dirname, '..', 'util/signups.json') )
-  // var emails = require('./remaining-lots.json')
-
-  var fails = []
-    , wins = []
+  var emails = require( pathToEmailAddressJson )
   
   //  sendEmail: function(fromSender, toRecipient, bcc, subject, emailText, emailHtml, cb){}
-  var emailLots = require('./remaining-lots-ignore.json')
-  
-  // emailLots.shift()
-  // return writeFile(JSON.stringify(emailLots), 'remaining-lots.json')
-  
-  var emailInterval = setInterval(function(){
-    
-    if(!emailLots.length){
-      console.log("All finished...")
-      clearInterval(emailInterval)
-      return
+  mailer.sendEmail('boom@openwebsxsw.com','boom@openwebsxsw.com',emails,'[Open Web SXSW] Party Update!',null,html,function(err,data){
+    if(err) {
+      console.warn("Error sending to email")
+      console.error(err)
+      writeFile(JSON.stringify(err), 'fails-'+new Date()+'.json')
     }
-    
-    var el = emailLots.pop()
+    else{
+      console.log('------------------------')
+      console.log('Successfully sent ')
+      console.dir(data)
+      writeFile(JSON.stringify(data), 'wins-'+new Date()+'.json')
+    }
+  }) // end sendEmail
 
-    mailer.sendEmail('boom@openwebsxsw.com','boom@openwebsxsw.com',el,'[Open Web SXSW] Saying Hello!',null,html,function(err,data){
-      if(err) {
-        console.warn("Error sending to email")
-        console.error(err)
-        writeFile(JSON.stringify(err), 'fails-'+new Date()+'.json')
-      }
-      else{
-        console.log('------------------------')
-        console.log('Successfully sent ')
-        console.dir(data)
-        writeFile(JSON.stringify(data), 'wins-'+new Date()+'.json')
-      }
-    }) // end sendEmail
-
-    
-  },5000) // end setInterval
       
 }
 
@@ -82,4 +62,3 @@ function writeFile(data, name){
   })
 }
 
-emailTest()

@@ -14,7 +14,7 @@ var express = require('express')
   , _ = require('lodash')
   , async = require('async')
   , stripe
-  , signups
+  , signups = []
   , kloutCache = []
   ;
 
@@ -87,7 +87,7 @@ app.get('/emails', function(req,res){
   var handles = []
   
   // If we have a cached version, serve this...
-  if(kloutCache.length) return res.render('view-email-addresses', {emails: kloutCache})
+  // if(kloutCache.length) return res.render('view-email-addresses', {emails: kloutCache})
     
   // If no signups, then something went wrong when fetching the 
   // signups.json  
@@ -128,11 +128,23 @@ app.get('/emails', function(req,res){
       }, 60000)
 
       return res.render('view-email-addresses', {emails: filtered})
+      // return res.render('view-email-addresses', {emails: addedToSet})
 
     }) // end getKloutScores
     
   }
   else return res.render('view-email-addresses', {emails: []})
+  
+})
+
+
+app.get('/yo', function(req,res){
+  
+  var signups = require('./test/losers-matches-ignore.json')
+  
+  console.dir(signups.length)
+
+  return res.render('view-email-addresses', {emails: signups})
   
 })
 

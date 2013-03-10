@@ -1,4 +1,4 @@
-Stripe, CouchDB and Google Apps Config Files
+Stripe, CouchDB, Google Email and Sendgrid Config Files
 =
 
 You will need a Stripe account to use this invoicing system.
@@ -32,9 +32,20 @@ Your `couchdb-config.json` file should look like:
 }
 ```
 
-You will need a Google Apps account to send emails.  Well, at least that's what I'm using.
+You will need a Google Apps account to send emails with Google apps.  They have a 500 email/day limit so I used Sendgrid.
 
 Your `google-apps-config.json` file should look like:
+
+```
+{
+  "username": "foo@bar.com",
+  "password": "TOM_CRUISE_IS_COMPLETELY_NORMAL"
+}
+```
+
+You will need a Sendgrid account to send emails with Sendgrid.  They are the shit and cheap.
+
+Your `sendgrid-config.json` file should look like:
 
 ```
 {

@@ -16,7 +16,7 @@
       <% if (emails.length) { %>
         <ul>
           <% emails.forEach(function(el,i){ var c = (i % 2) ? 'odd' : 'even'; %>
-            <li class="<%- c %>"><%= el.name %> | <%= el.email %> | <a href="http://twitter.com/<%= el.twitter %>"><%= el.twitter %></a> | <%= el.klout %></li>
+            <li class="<%- c %>"><%= el.name %> | <%= el.email %> | <%= el.twitter %> | <%= el.klout %></li>
           <% }) %>
         </ul>
       <% } %>
