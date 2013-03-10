@@ -165,7 +165,7 @@ $(document).ready(function(){
     // first hide the fallback div
     $('#location-fallback').hide()
     // now, show the map/directions
-    // loadMapJs()
+    loadMapJs()
     
   }
   
@@ -199,16 +199,27 @@ $(document).ready(function(){
   
   // needs to be added to global because of async fetch of gmaps js file
   window.showMap = function(){
-      log("Location stuff is coming soon, bro.")
-      // var mapOptions = {
-      //     center: new google.maps.LatLng(30.269555,-97.751337),
-      //     zoom: 15,
-      //     mapTypeId: google.maps.MapTypeId.ROADMAP
-      //   };
-      //   var map = new google.maps.Map(document.getElementById("map"),
-      //       mapOptions);
-      //       
-      //   $('#map').addClass('imgstyle')
+
+    log("Location stuff is coming soon, bro.")
+
+    var mapOptions = {
+        center: new google.maps.LatLng(30.269819,-97.751192),
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        zoom: 13
+      }
+      
+    var map = new google.maps.Map(document.getElementById("map"),
+        mapOptions)
+        
+    $('#map').addClass('imgstyle')
+      
+    var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(30.269819,-97.751192),
+        map: map,
+        title: "Open Web Party SXSW 2013",
+        animation: google.maps.Animation.DROP
+    })
+        
   }
   
   /* End Location Mapping... ***********************************/
