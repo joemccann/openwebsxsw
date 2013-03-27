@@ -79,6 +79,9 @@ app.configure('development', function(){
 // Handle index page.
 app.get('/', routes.index)
 
+// Handle index page.
+app.get('/wrapup', routes.wrapup)
+
 
 // Handle emails page.
 // TODO:  ADD SOME BASELINE CACHING SO WE AREN'T DOING THIS ON EVERY REQUEST
